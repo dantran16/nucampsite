@@ -11,7 +11,7 @@ import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
-import { postComment, fetchCampsites, fetchComments, fetchPromotions } from "../redux/ActionCreators";
+import { postComment, fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from "../redux/ActionCreators";
 
 
 const mapStateToProps = state => {
@@ -28,7 +28,8 @@ const mapDispatchToProps = {
   fetchCampsites: () => (fetchCampsites()),
   resetFeedbackForm: () => (actions.reset('feedbackForm')),
   fetchComments: () => (fetchComments()),
-  fetchPromotions: () => (fetchPromotions())
+  fetchPromotions: () => (fetchPromotions()),
+  fetchPartners: () => (fetchPartners())
 };
 
 class Main extends Component {
@@ -37,21 +38,24 @@ class Main extends Component {
     this.props.fetchCampsites();
     this.props.fetchComments();
     this.props.fetchPromotions();
+    this.props.fetchPartners();
   }
 
 	render() {
 		const HomePage = () => {
 			return (
 				<Home
-					campsite={
-						this.props.campsites.campsites.filter((campsite) => campsite.featured)[0]
-					}
+          campsite={
+            this.props.campsites.campsites.filter((campsite) => campsite.featured)[0]
+          }
           campsitesLoading={this.props.campsites.isLoading}
           campsitesErrMess={this.props.campsites.errMess}
           promotion={this.props.promotions.promotions.filter(promotion => promotion.featured)[0]}
           promotionLoading={this.props.promotions.isLoading}
           promotionErrMess={this.props.promotions.errMess}
-					partner={this.props.partners.filter(partner => partner.featured)[0]}
+          partner={this.props.partners.partners.filter(partner => partner.featured)[0]}
+          partnersLoading={this.props.partners.isLoading}
+          partnersErrMess={this.props.partners.errMess}
 				/>
 			);
 		};
