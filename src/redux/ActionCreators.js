@@ -176,7 +176,7 @@ export const fetchPartners = () => dispatch => {
     .catch(error => dispatch(partnersFailed(error.message)));
 }
 
-export const addPartners = (partners) => ({
+export const addPartners = partners => ({
   type: ActionTypes.ADD_PARTNERS,
   payload: partners
 })
@@ -185,7 +185,37 @@ export const partnersLoading = () => ({
   type: ActionTypes.PARTNERS_LOADING
 })
 
-export const partnersFailed = (errMess) => ({
+export const partnersFailed = errMess => ({
   type: ActionTypes.PARTNERS_FAILED,
   payload: errMess
 })
+
+export const postFeedback = feedback => dispatch => {
+  return fetch(baseUrl + 'feedback', {
+    method: "POST",
+    body: JSON.stringify(feedback),
+    headers: {
+      "Content-Type": "application/json"
+    }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        const error = new Error(`Error ${response.status}: ${response.statusText}`);
+        error.response = response;
+        throw error;
+      }
+    },
+    error => {
+      throw error;
+    }
+    )
+    .then(response => response.json())
+    .then(response => dispatch(alert(`Thank you for your feedback! ${JSON.stringify(response)}`)
+    ))
+    .catch(error => {
+      console.log('post feedback', error.message);
+      alert('Your comment could not be posted\nError: ' + error.message);
+    });
+}

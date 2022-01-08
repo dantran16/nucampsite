@@ -35,8 +35,7 @@ class Contact extends Component {
   }
 
   handleSubmit(values) {
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
+    this.props.postFeedback(values)
     this.props.resetFeedbackForm();
   }
 
@@ -201,8 +200,8 @@ class Contact extends Component {
                       <Col md={4}>
                           <Control.select model=".contactType" name="contactType"
                                   className="form-control">
-                              <option>By Phone</option>
-                              <option>By Email</option>
+                              <option default value="Phone">By Phone</option>
+                              <option value="Email">By Email</option>
                           </Control.select>
                       </Col>
                   </Row>
